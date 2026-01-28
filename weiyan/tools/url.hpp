@@ -280,8 +280,6 @@ namespace Weiyan {
                 is_fst = false;
             }
 
-            std::cout << oss.str() << std::endl;
-
             return oss.str();
         }
 
