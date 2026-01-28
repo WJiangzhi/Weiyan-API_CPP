@@ -28,15 +28,15 @@ int main() {
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
 
-    Weiyan::Context Ctx = Weiyan::Create("sAHaJWsyua2i4YBJ", "10000", "asTHuiKKs");
+    Weiyan::Context Ctx = Weiyan::Create("sAHaJW6Ac2i4YBJ", "10798", "wmdKNBFS4TnKHdD");
     Weiyan::Login LoginObj(Ctx);
     Weiyan::Unbind UnbindObj(Ctx);
     Weiyan::Notice Notice(Ctx);
     
-    LoginObj("CB854DCF8B544335C5A742CDA8EE8B94");
+    LoginObj("CB854DCF8B234335C5A742CDA8EE8B94");
     std::cout << LoginObj.data.dump(2) << std::endl;
 
-    UnbindObj("CB854DCF8B544335C5A742CDA8EE8B94");
+    UnbindObj("CB854DCF8B234335C5A742CDA8EE8B94");
     std::cout << UnbindObj.data.dump(2) << std::endl;
 
     Notice.Get();
