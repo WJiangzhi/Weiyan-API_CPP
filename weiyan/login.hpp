@@ -367,6 +367,7 @@ namespace Weiyan {
          * @return 检查码字符串
          */
         std::string check() const {
+            if (!data.contains("check")) return {};
             return data["check"].get<std::string>();
         }
 
@@ -393,6 +394,7 @@ namespace Weiyan {
          * @return HTTP响应码
          */
         int code() const {
+            if (!data.contains("code")) return -1;
             return data["code"];
         }
 
@@ -401,7 +403,8 @@ namespace Weiyan {
          * @return 卡密ID
          */
         int key_id() const {
-            return noMsgArr() ? -1 : data["msg"]["id"].get<int>();
+            if (noMsgArr() || !data.contains("msg") || !data["msg"].contains("id")) return -1;
+            return data["msg"]["id"].get<int>();
         }
 
         /**
@@ -420,7 +423,8 @@ namespace Weiyan {
          * @return 类型字符串
          */
         std::string key_time_type() const {
-            return noMsgArr() ? "unknown" : data["msg"]["kmtype"].get<std::string>();
+            if (noMsgArr() || !data.contains("msg") || !data["msg"].contains("kmtype")) return "unknown";
+            return data["msg"]["kmtype"].get<std::string>();
         }
 
         /**
@@ -428,7 +432,8 @@ namespace Weiyan {
          * @return 卡密类型字符串
          */
         std::string key_type() const {
-            return noMsgArr() ? "unknown" : data["msg"]["ktype"].get<std::string>();
+            if (noMsgArr() || !data.contains("msg") || !data["msg"].contains("ktype")) return "unknown";
+            return data["msg"]["ktype"].get<std::string>();
         }
 
         /**
@@ -436,7 +441,8 @@ namespace Weiyan {
          * @return 字符串令牌
          */
         std::string token() const {
-            return noMsgArr() ? "unknown" : data["msg"]["token"].get<std::string>();
+            if (noMsgArr() || !data.contains("msg") || !data["msg"].contains("token")) return "unknown";
+            return data["msg"]["token"].get<std::string>();
         }
 
         /**
@@ -444,7 +450,8 @@ namespace Weiyan {
          * @return C++风格时间戳
          */
         timestamp expire() const {
-            return timestamp::build(std::chrono::seconds(noMsgArr() ? 0 : data["msg"]["vip"].get<int>()));
+            if (noMsgArr() || !data.contains("msg") || !data["msg"].contains("vip")) return {};
+            return timestamp::build(std::chrono::seconds(data["msg"]["vip"].get<int>()));
         }
 
         /**
@@ -452,6 +459,7 @@ namespace Weiyan {
          * @return C++风格时间戳
          */
         timestamp time() const {
+            if (!data.contains("time")) return {};
             return timestamp::build(std::chrono::seconds(data["time"]));
         }
 

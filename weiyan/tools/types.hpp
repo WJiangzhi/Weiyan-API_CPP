@@ -236,7 +236,7 @@ namespace Weiyan {
         value_type t;
     public:
         // ReSharper disable once CppNonExplicitConvertingConstructor
-        timestamp(const value_type& t) : t(t) {}
+        timestamp(const value_type& t = {}) : t(t) {}
 
         template <typename... Args>
         static timestamp build(Args&&... args) {

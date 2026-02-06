@@ -234,9 +234,6 @@ namespace Weiyan {
     class Unbind {
         Context& mCtx;
 
-    protected:
-        bool get_success = false;
-
     public:
         json data;
 
@@ -292,11 +289,8 @@ namespace Weiyan {
 
             const json_result j{mCtx->RC4.Dec(res)};
 
-            if (j) {
+            if (j)
                 data = *j;
-
-                get_success = code() == 200;
-            }
 
             return data;
         }
@@ -306,7 +300,7 @@ namespace Weiyan {
          * @return 解绑状态
          */
         bool success() const {
-            return get_success;
+            return code() == 200;;
         }
 
         /**
@@ -314,6 +308,7 @@ namespace Weiyan {
          * @return 检查码字符串
          */
         std::string check() const {
+            if (!data.contains("check")) return {};
             return data["check"].get<std::string>();
         }
 
@@ -322,6 +317,7 @@ namespace Weiyan {
          * @return HTTP响应码
          */
         int code() const {
+            if (!data.contains("code")) return -1;
             return data["code"];
         }
 
@@ -330,6 +326,7 @@ namespace Weiyan {
          * @return 提示信息
          */
         std::string msg() const {
+            if (!data.contains("msg")) return {};
             return data["msg"].is_object() ?
                 success() ?
                     "解绑成功"
@@ -342,7 +339,8 @@ namespace Weiyan {
          * @return 解绑次数剩余
          */
         int attempts() const {
-            return data["msg"].is_object() ? data["msg"]["num"].get<int>() : -1;
+            if (!data.contains("msg") || !data["msg"].is_object() || !data["msg"].contains("num")) return -1;
+            return data["msg"]["num"].get<int>();
         }
 
         /**
@@ -350,6 +348,7 @@ namespace Weiyan {
          * @return C++风格时间戳
          */
         timestamp time() const {
+            if (!data.contains("time")) return {};
             return timestamp::build(std::chrono::seconds(data["time"]));
         }
     };
